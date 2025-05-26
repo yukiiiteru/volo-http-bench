@@ -1,0 +1,40 @@
+[package]
+name = "volo-http-bench"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+volo = "0.10"
+volo-http = "0.3"
+motore = "0.4"
+
+clap = { version = "4", features = ["derive"] }
+futures = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "sync", "time"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+[features]
+client = ["volo-http/client"]
+server = ["volo-http/server"]
+
+[[bin]]
+name = "bench-client"
+path = "src/bin/bench-client.rs"
+required-features = ["client"]
+
+[[bin]]
+name = "bench-server"
+path = "src/bin/bench-server.rs"
+required-features = ["server"]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'unwind'
+incremental = false
+overflow-checks = false
